@@ -1,0 +1,3860 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Japanese Adult Video Subtitle Generator with AI-powered transcription">
+      
+      
+        <meta name="author" content="MeiZhong">
+      
+      
+        <link rel="canonical" href="https://meizhong986.github.io/whisperjav/research/OLLAMA_INTEGRATION_RESEARCH/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>Ollama Integration Research: Strategies, Patterns & UX Design - WhisperJAV Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ollama-integration-research-strategies-patterns-ux-design" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="WhisperJAV Documentation" class="md-header__button md-logo" aria-label="WhisperJAV Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WhisperJAV Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ollama Integration Research: Strategies, Patterns &amp; UX Design
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/meizhong986/whisperjav" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    meizhong986/whisperjav
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="WhisperJAV Documentation" class="md-nav__button md-logo" aria-label="WhisperJAV Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    WhisperJAV Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/meizhong986/whisperjav" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    meizhong986/whisperjav
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../getting-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/installation_windows_standalone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows (Installer)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/installation_windows_python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows (Python)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/installation_mac_apple_silicon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    macOS (Apple Silicon)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/installation_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../user-guide/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/gui_user_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI Walkthrough
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/cli-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/output-formats/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output Formats
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/translation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Translation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../pipelines/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipelines
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipelines
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pipelines/ensemble/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ensemble Mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pipelines/chronosjav/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ChronosJAV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pipelines/qwen3-asr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Qwen3-ASR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrading
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Upgrading
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UPGRADE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WhisperJAV Upgrade Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UPGRADE_TROUBLESHOOTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MANUAL_ROLLBACK/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manual Rollback
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../developer/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/CONFIG_SOURCES_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/ADR-001-yaml-config-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-001 YAML Config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/ADR-002-batched-transcription-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-002 Batched Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ADR-003-qwen3-asr-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-003 Qwen3 Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ADR-004-dedicated-qwen-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-004 Dedicated Qwen Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Executive Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Executive Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#research-question" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Research Question
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-finding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Finding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommendation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-problem-were-solving" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The Problem We're Solving
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. The Problem We&#39;re Solving">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-pain-points-from-github-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User Pain Points (from GitHub issues)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-users-actually-want" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Users Actually Want
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-the-current-system-delivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the Current System Delivers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-the-target-system-should-deliver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the Target System Should Deliver
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-ollama-technical-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Ollama Technical Profile
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Ollama Technical Profile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-technical-facts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Technical Facts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation-per-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation Per Platform
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-endpoints-relevant-to-whisperjav" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Endpoints Relevant to WhisperJAV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detection-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detection Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-sizes-for-translation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Sizes for Translation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-integration-strategy-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Integration Strategy Options
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Integration Strategy Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#strategy-a-bundle-everything" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy A: "Bundle Everything"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-b-pure-byoo-bring-your-own-ollama" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy B: "Pure BYOO" (Bring Your Own Ollama)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-c-smart-byoo-detect-guide-auto-pull-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy C: "Smart BYOO" (Detect + Guide + Auto-Pull) ← RECOMMENDED
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-d-embedded-ollama-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy D: "Embedded Ollama Server"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-comparison-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy Comparison Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-industry-patterns-lessons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Industry Patterns &amp; Lessons
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Industry Patterns &amp; Lessons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-other-projects-handle-ollama" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Other Projects Handle Ollama
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How Other Projects Handle Ollama">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open-webui-formerly-ollama-webui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open WebUI (formerly Ollama WebUI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anythingllm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AnythingLLM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpt4all" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT4All
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#janai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jan.ai
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lm-studio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LM Studio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Pitfalls
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-ux-design-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. UX Design Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. UX Design Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principle-1-detect-dont-assume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle 1: Detect, Don't Assume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principle-2-progressive-disclosure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle 2: Progressive Disclosure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principle-3-one-time-pain-permanent-gain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle 3: One-Time Pain, Permanent Gain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principle-4-hardware-aware-defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle 4: Hardware-Aware Defaults
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principle-5-graceful-degradation-not-hard-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle 5: Graceful Degradation, Not Hard Failures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principle-6-the-check-again-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle 6: The "Check Again" Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principle-7-separate-setup-from-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle 7: Separate "Setup" from "Use"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-recommended-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Recommended Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Recommended Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#high-level-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Level Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ollamamanager-core-integration-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OllamaManager — Core Integration Class
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#translation-flow-v190" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Translation Flow (v1.9.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-design-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Design Decisions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-model-selection-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Model Selection Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Model Selection Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#two-tier-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two-Tier Selection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Two-Tier Selection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tier-1-just-works-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tier 1: "Just Works" (Default)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tier-2-advanced-settings-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tier 2: "Advanced" (Settings Page)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-quality-tiers-human-readable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Quality Tiers (Human-Readable)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-configured-translation-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Configured Translation Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-error-handling-diagnostics-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Error Handling &amp; Diagnostics Design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Error Handling &amp; Diagnostics Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-scenarios-messaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Scenarios &amp; Messaging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#graceful-degradation-chain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Graceful Degradation Chain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vram-sharing-whisper-ollama" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VRAM Sharing: Whisper + Ollama
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-current-whisperjav-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Current WhisperJAV State
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Current WhisperJAV State">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-already-exists-v188" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Already Exists (v1.8.8)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#whats-missing-for-v190" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Missing for v1.9.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-to-remove-v190" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code to Remove (v1.9.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-to-add-v190" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code to Add (v1.9.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-risk-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Risk Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Risk Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-for-top-risk-users-cant-install-ollama" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation for Top Risk: "Users Can't Install Ollama"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Open Questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Open Questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q1-should-whisperjav-auto-start-ollama" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q1: Should WhisperJAV auto-start Ollama?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q2-how-to-handle-uncensored-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q2: How to handle uncensored models?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q3-should-the-setup-wizard-be-cli-only-or-also-gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q3: Should the setup wizard be CLI-only or also GUI?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q4-whats-the-minimum-ollama-version-to-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q4: What's the minimum Ollama version to support?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q5-should-whisperjav-manage-ollama_keep_alive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q5: Should WhisperJAV manage OLLAMA_KEEP_ALIVE?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q6-how-to-handle-vram-sharing-between-whisper-and-ollama" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q6: How to handle VRAM sharing between Whisper and Ollama?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. References
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. References">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ollama-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ollama Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ollama-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ollama Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#industry-projects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Industry Projects
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ux-research" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UX Research
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-research" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Research
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#whisperjav-internal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WhisperJAV Internal
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/meizhong986/whisperjav/edit/main/docs/research/OLLAMA_INTEGRATION_RESEARCH.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="ollama-integration-research-strategies-patterns-ux-design">Ollama Integration Research: Strategies, Patterns &amp; UX Design<a class="headerlink" href="#ollama-integration-research-strategies-patterns-ux-design" title="Permanent link">&para;</a></h1>
+<p><strong>Date</strong>: 2026-03-13
+<strong>Purpose</strong>: Inform v1.9.0 architecture decisions for local LLM translation
+<strong>Audience</strong>: WhisperJAV maintainers and external reviewers
+<strong>Status</strong>: Research complete, pending design decisions</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#1-executive-summary">Executive Summary</a></li>
+<li><a href="#2-the-problem-were-solving">The Problem We're Solving</a></li>
+<li><a href="#3-ollama-technical-profile">Ollama Technical Profile</a></li>
+<li><a href="#4-integration-strategy-options">Integration Strategy Options</a></li>
+<li><a href="#5-industry-patterns--lessons">Industry Patterns &amp; Lessons</a></li>
+<li><a href="#6-ux-design-principles">UX Design Principles</a></li>
+<li><a href="#7-recommended-architecture">Recommended Architecture</a></li>
+<li><a href="#8-model-selection-strategy">Model Selection Strategy</a></li>
+<li><a href="#9-error-handling--diagnostics-design">Error Handling &amp; Diagnostics Design</a></li>
+<li><a href="#10-current-whisperjav-state">Current WhisperJAV State</a></li>
+<li><a href="#11-risk-analysis">Risk Analysis</a></li>
+<li><a href="#12-open-questions">Open Questions</a></li>
+<li><a href="#13-references">References</a></li>
+</ol>
+<hr />
+<h2 id="1-executive-summary">1. Executive Summary<a class="headerlink" href="#1-executive-summary" title="Permanent link">&para;</a></h2>
+<h3 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h3>
+<p>WhisperJAV's current local LLM backend (<code>llama-cpp-python</code>) is architecturally fragile: 2,423 lines of DLL loading hacks, CUDA wheel management, and build-from-source fallbacks. It produces 5+ open issues and is the #1 source of user frustration.</p>
+<h3 id="research-question">Research Question<a class="headerlink" href="#research-question" title="Permanent link">&para;</a></h3>
+<p>How should WhisperJAV integrate Ollama as the primary local LLM backend, balancing user simplicity ("one click and go") against engineering overhead ("bring your own Ollama")?</p>
+<h3 id="key-finding">Key Finding<a class="headerlink" href="#key-finding" title="Permanent link">&para;</a></h3>
+<p><strong>No local LLM experience is truly one-click.</strong> The irreducible minimum is (1) install a runtime and (2) download a multi-GB model. The best apps minimize this to two interactions, then get out of the way. The industry has converged on a <strong>"Detect + Guide + Verify"</strong> pattern.</p>
+<h3 id="recommendation">Recommendation<a class="headerlink" href="#recommendation" title="Permanent link">&para;</a></h3>
+<p><strong>Strategy C: "Smart BYOO" (Bring Your Own Ollama with Guided Detection)</strong></p>
+<p>WhisperJAV detects Ollama, guides installation if missing, auto-pulls models with consent, and manages the translation session. Ollama remains a system-level tool the user owns. WhisperJAV never bundles, installs, or silently manages Ollama.</p>
+<p><strong>Why not bundle Ollama?</strong> Ollama is 200-400 MB (binary) + 4-8 GB (model). Bundling doubles installer size, creates update coupling, and violates the principle that system services should be user-controlled. Every major project (Open WebUI, AnythingLLM, Jan.ai) treats Ollama as external.</p>
+<hr />
+<h2 id="2-the-problem-were-solving">2. The Problem We're Solving<a class="headerlink" href="#2-the-problem-were-solving" title="Permanent link">&para;</a></h2>
+<h3 id="user-pain-points-from-github-issues">User Pain Points (from GitHub issues)<a class="headerlink" href="#user-pain-points-from-github-issues" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Root Cause</th>
+<th>Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Failed to load local LLM server"</td>
+<td>DLL version mismatch</td>
+<td>High (#196, #212)</td>
+</tr>
+<tr>
+<td>"No matches found" on all batches</td>
+<td>Context overflow, garbled output</td>
+<td>High (#214, #132)</td>
+</tr>
+<tr>
+<td>cu118 wheel rejected by uv</td>
+<td>Version metadata mismatch</td>
+<td>Medium (#218)</td>
+</tr>
+<tr>
+<td>Build from source fails</td>
+<td>No compiler, wrong CUDA</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>"What model should I use?"</td>
+<td>No guidance</td>
+<td>Ongoing</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-users-actually-want">What Users Actually Want<a class="headerlink" href="#what-users-actually-want" title="Permanent link">&para;</a></h3>
+<p>Based on issue reports and user behavior:
+- <strong>60% want "one click and go"</strong> — minimal technical knowledge required
+- <strong>30% are comfortable with guided setup</strong> — will follow clear instructions
+- <strong>10% are power users</strong> — want custom models, custom servers, full control</p>
+<h3 id="what-the-current-system-delivers">What the Current System Delivers<a class="headerlink" href="#what-the-current-system-delivers" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>User clicks &quot;Translate&quot; with --provider local
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>→ WhisperJAV tries to load llama-cpp-python
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>→ DLL loading fails (CUDA version mismatch) or
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>→ Tries to build from source (no compiler found) or
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>→ Server starts but model produces garbled output
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>→ ERROR: User confused, gives up
+</code></pre></div>
+<h3 id="what-the-target-system-should-deliver">What the Target System Should Deliver<a class="headerlink" href="#what-the-target-system-should-deliver" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>User clicks &quot;Translate&quot; with --provider ollama
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>→ WhisperJAV checks: Is Ollama running? → Yes → Continue
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>→ WhisperJAV checks: Is model available? → Yes → Translate
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>→ Done. Standard HTTP API, no DLLs, no compilation.
+</code></pre></div>
+<hr />
+<h2 id="3-ollama-technical-profile">3. Ollama Technical Profile<a class="headerlink" href="#3-ollama-technical-profile" title="Permanent link">&para;</a></h2>
+<h3 id="architecture-overview">Architecture Overview<a class="headerlink" href="#architecture-overview" title="Permanent link">&para;</a></h3>
+<p>Ollama is a Go binary (~200-400 MB) that embeds llama.cpp as its inference engine. It follows a client-server architecture:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>┌─────────────────────────────────────────────┐
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>│                 Ollama Server               │
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>│  (Go binary, HTTP API on port 11434)        │
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>│                                             │
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>│  ┌─────────────────────────────────────┐    │
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>│  │         Scheduler                    │    │
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>│  │  - Model loading/unloading           │    │
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>│  │  - GPU memory management             │    │
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>│  │  - Request queuing                   │    │
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>│  └──────────────┬──────────────────────┘    │
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>│                 │                            │
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>│  ┌──────────────▼──────────────────────┐    │
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>│  │      Runner Subprocess               │    │
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>│  │  (llama.cpp inference engine)        │    │
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>│  │  - CUDA / ROCm / Metal / Vulkan     │    │
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>│  │  - CPU fallback                      │    │
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>│  └─────────────────────────────────────┘    │
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>└─────────────────────────────────────────────┘
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>        ▲
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>        │ HTTP (OpenAI-compatible)
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>        ▼
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>┌─────────────────────────────────────────────┐
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>│            WhisperJAV                       │
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>│  (via PySubtrans → OpenAI API)              │
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>└─────────────────────────────────────────────┘
+</code></pre></div>
+<h3 id="key-technical-facts">Key Technical Facts<a class="headerlink" href="#key-technical-facts" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Binary</strong></td>
+<td>Single Go executable, ~200-400 MB</td>
+</tr>
+<tr>
+<td><strong>API</strong></td>
+<td>REST HTTP, OpenAI-compatible at <code>/v1/</code></td>
+</tr>
+<tr>
+<td><strong>Port</strong></td>
+<td>11434 (configurable via <code>OLLAMA_HOST</code>)</td>
+</tr>
+<tr>
+<td><strong>GPU</strong></td>
+<td>Auto-detects NVIDIA (CUDA), AMD (ROCm), Apple (Metal), Intel, Vulkan</td>
+</tr>
+<tr>
+<td><strong>Models</strong></td>
+<td>Content-addressable blobs in <code>~/.ollama/models/</code></td>
+</tr>
+<tr>
+<td><strong>Memory</strong></td>
+<td>Auto-manages GPU/CPU layer distribution per available VRAM</td>
+</tr>
+<tr>
+<td><strong>Keep-alive</strong></td>
+<td>Models stay loaded 5 minutes after last request (configurable)</td>
+</tr>
+<tr>
+<td><strong>Downloads</strong></td>
+<td>Resumable — cancelled pulls continue from where they stopped</td>
+</tr>
+<tr>
+<td><strong>License</strong></td>
+<td>MIT</td>
+</tr>
+</tbody>
+</table>
+<h3 id="installation-per-platform">Installation Per Platform<a class="headerlink" href="#installation-per-platform" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Method</th>
+<th>Location</th>
+<th>Runs As</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Windows</strong></td>
+<td><code>OllamaSetup.exe</code> from ollama.com</td>
+<td><code>%LOCALAPPDATA%\Programs\Ollama</code></td>
+<td>Background tray app</td>
+</tr>
+<tr>
+<td><strong>macOS</strong></td>
+<td>Drag <code>Ollama.app</code> to Applications</td>
+<td><code>/Applications/Ollama.app</code></td>
+<td>Menu bar app</td>
+</tr>
+<tr>
+<td><strong>Linux</strong></td>
+<td><code>curl -fsSL https://ollama.com/install.sh \| sh</code></td>
+<td><code>/usr/local/bin/ollama</code></td>
+<td>systemd service</td>
+</tr>
+</tbody>
+</table>
+<p>No admin rights required on Windows. All platforms add <code>ollama</code> to PATH.</p>
+<h3 id="api-endpoints-relevant-to-whisperjav">API Endpoints Relevant to WhisperJAV<a class="headerlink" href="#api-endpoints-relevant-to-whisperjav" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th>Purpose</th>
+<th>WhisperJAV Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>/</code></td>
+<td>Health check</td>
+<td>Detect running server</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/version</code></td>
+<td>Server version</td>
+<td>Version compatibility check</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/tags</code></td>
+<td>List local models</td>
+<td>Check if model is available</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/show</code></td>
+<td>Model details</td>
+<td>Get context length, capabilities</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/pull</code></td>
+<td>Download model</td>
+<td>Auto-pull on first use</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/ps</code></td>
+<td>Loaded models</td>
+<td>Check if model is in memory</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/v1/chat/completions</code></td>
+<td>Translation</td>
+<td><strong>Primary translation endpoint</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="detection-methods">Detection Methods<a class="headerlink" href="#detection-methods" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Is Ollama installed?</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">ollama_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">&quot;ollama&quot;</span><span class="p">)</span>  <span class="c1"># Returns path or None</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Is Ollama server running?</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">resp</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s2">&quot;http://localhost:11434/&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="n">is_running</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Ollama is running&quot;</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="n">is_running</span> <span class="o">=</span> <span class="kc">False</span>
+</code></pre></div>
+<h3 id="key-environment-variables">Key Environment Variables<a class="headerlink" href="#key-environment-variables" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>WhisperJAV Relevance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OLLAMA_HOST</code></td>
+<td><code>127.0.0.1:11434</code></td>
+<td>Custom port support</td>
+</tr>
+<tr>
+<td><code>OLLAMA_MODELS</code></td>
+<td><code>~/.ollama/models</code></td>
+<td>Custom model storage</td>
+</tr>
+<tr>
+<td><code>OLLAMA_KEEP_ALIVE</code></td>
+<td><code>5m</code></td>
+<td>Memory management during batch translation</td>
+</tr>
+<tr>
+<td><code>OLLAMA_GPU_OVERHEAD</code></td>
+<td><code>0</code></td>
+<td>Reserve VRAM for Whisper ASR</td>
+</tr>
+<tr>
+<td><code>OLLAMA_NUM_PARALLEL</code></td>
+<td><code>1</code></td>
+<td>Concurrent request handling</td>
+</tr>
+<tr>
+<td><code>OLLAMA_CONTEXT_LENGTH</code></td>
+<td>model default</td>
+<td>Override context window globally</td>
+</tr>
+</tbody>
+</table>
+<h3 id="model-sizes-for-translation">Model Sizes for Translation<a class="headerlink" href="#model-sizes-for-translation" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Parameters</th>
+<th>Disk (Q4_K_M)</th>
+<th>VRAM Needed</th>
+<th>JP→EN Quality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gemma 2 2B</td>
+<td>2.6B</td>
+<td>~1.6 GB</td>
+<td>~4 GB</td>
+<td>Basic</td>
+</tr>
+<tr>
+<td>Llama 3.2 3B</td>
+<td>3.2B</td>
+<td>~2.0 GB</td>
+<td>~4 GB</td>
+<td>Passable</td>
+</tr>
+<tr>
+<td>Qwen 2.5 7B</td>
+<td>7.6B</td>
+<td>~4.7 GB</td>
+<td>~8 GB</td>
+<td>Good (strong CJK)</td>
+</tr>
+<tr>
+<td>Llama 3.1 8B</td>
+<td>8.0B</td>
+<td>~4.9 GB</td>
+<td>~8 GB</td>
+<td>Good</td>
+</tr>
+<tr>
+<td>Gemma 3 12B</td>
+<td>12B</td>
+<td>~7.3 GB</td>
+<td>~12 GB</td>
+<td>Very good</td>
+</tr>
+<tr>
+<td>Qwen 2.5 14B</td>
+<td>14.8B</td>
+<td>~9.0 GB</td>
+<td>~16 GB</td>
+<td>Excellent</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sweet spot for JAV translation</strong>: 7B-12B models on 8-12 GB VRAM consumer GPUs. Qwen 2.5 7B is particularly strong for CJK languages.</p>
+<hr />
+<h2 id="4-integration-strategy-options">4. Integration Strategy Options<a class="headerlink" href="#4-integration-strategy-options" title="Permanent link">&para;</a></h2>
+<h3 id="strategy-a-bundle-everything">Strategy A: "Bundle Everything"<a class="headerlink" href="#strategy-a-bundle-everything" title="Permanent link">&para;</a></h3>
+<p>WhisperJAV packages Ollama binary inside its installer and manages the full lifecycle.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Assessment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>User experience</strong></td>
+<td>Simplest — truly "one click" after install</td>
+</tr>
+<tr>
+<td><strong>Installer size</strong></td>
+<td>+200-400 MB (binary) + 4-8 GB (model) = <strong>4-8 GB total</strong></td>
+</tr>
+<tr>
+<td><strong>Update coupling</strong></td>
+<td>WhisperJAV must ship new installer for every Ollama update</td>
+</tr>
+<tr>
+<td><strong>Platform complexity</strong></td>
+<td>Must bundle platform-specific binaries (Windows, macOS, Linux)</td>
+</tr>
+<tr>
+<td><strong>User trust</strong></td>
+<td>Low — silently installing a system service feels invasive</td>
+</tr>
+<tr>
+<td><strong>GPU management</strong></td>
+<td>Ollama handles it, but conflicts with system Ollama possible</td>
+</tr>
+<tr>
+<td><strong>Who does this</strong></td>
+<td>GPT4All (bundles llama.cpp, not Ollama specifically)</td>
+</tr>
+<tr>
+<td><strong>Verdict</strong></td>
+<td><strong>Not recommended.</strong> Too heavy, too coupled, too invasive.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="strategy-b-pure-byoo-bring-your-own-ollama">Strategy B: "Pure BYOO" (Bring Your Own Ollama)<a class="headerlink" href="#strategy-b-pure-byoo-bring-your-own-ollama" title="Permanent link">&para;</a></h3>
+<p>WhisperJAV requires Ollama to be pre-installed and running. Shows error if not found.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Assessment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>User experience</strong></td>
+<td>Requires separate install + model pull before first use</td>
+</tr>
+<tr>
+<td><strong>Installer size</strong></td>
+<td>No change</td>
+</tr>
+<tr>
+<td><strong>Engineering effort</strong></td>
+<td>Minimal — just HTTP client code</td>
+</tr>
+<tr>
+<td><strong>User friction</strong></td>
+<td>High for non-technical users (must install Ollama, pull model)</td>
+</tr>
+<tr>
+<td><strong>Failure mode</strong></td>
+<td>User gives up at "install Ollama" step</td>
+</tr>
+<tr>
+<td><strong>Who does this</strong></td>
+<td>AnythingLLM, Open WebUI</td>
+</tr>
+<tr>
+<td><strong>Verdict</strong></td>
+<td><strong>Too much friction for 60% of users.</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="strategy-c-smart-byoo-detect-guide-auto-pull-recommended">Strategy C: "Smart BYOO" (Detect + Guide + Auto-Pull) ← RECOMMENDED<a class="headerlink" href="#strategy-c-smart-byoo-detect-guide-auto-pull-recommended" title="Permanent link">&para;</a></h3>
+<p>WhisperJAV detects Ollama state and guides users through whatever is missing. Auto-pulls models with user consent.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Assessment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>User experience</strong></td>
+<td>Guided wizard on first use, zero friction after setup</td>
+</tr>
+<tr>
+<td><strong>Installer size</strong></td>
+<td>No change</td>
+</tr>
+<tr>
+<td><strong>Engineering effort</strong></td>
+<td>Medium — detection, guidance UI, model pull with progress</td>
+</tr>
+<tr>
+<td><strong>User friction</strong></td>
+<td>Low-medium (one external install, rest is guided)</td>
+</tr>
+<tr>
+<td><strong>Failure mode</strong></td>
+<td>User gets stuck installing Ollama (mitigated by clear instructions)</td>
+</tr>
+<tr>
+<td><strong>Who does this</strong></td>
+<td>This is the industry convergence pattern</td>
+</tr>
+<tr>
+<td><strong>Verdict</strong></td>
+<td><strong>Best balance of simplicity, engineering effort, and user trust.</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="strategy-d-embedded-ollama-server">Strategy D: "Embedded Ollama Server"<a class="headerlink" href="#strategy-d-embedded-ollama-server" title="Permanent link">&para;</a></h3>
+<p>WhisperJAV downloads Ollama binary on first use and manages it as a subprocess.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Assessment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>User experience</strong></td>
+<td>Near "one click" — auto-downloads ~400 MB binary</td>
+</tr>
+<tr>
+<td><strong>Installer size</strong></td>
+<td>No change initially, +400 MB on first use</td>
+</tr>
+<tr>
+<td><strong>Engineering effort</strong></td>
+<td>High — must handle download, versioning, process management</td>
+</tr>
+<tr>
+<td><strong>Platform complexity</strong></td>
+<td>Must detect OS/arch, download correct binary, handle permissions</td>
+</tr>
+<tr>
+<td><strong>Conflict risk</strong></td>
+<td>What if user already has system Ollama on different port?</td>
+</tr>
+<tr>
+<td><strong>Update burden</strong></td>
+<td>Must track Ollama releases, test compatibility</td>
+</tr>
+<tr>
+<td><strong>Who does this</strong></td>
+<td>No major project does this for Ollama</td>
+</tr>
+<tr>
+<td><strong>Verdict</strong></td>
+<td><strong>Over-engineered. High maintenance, low incremental benefit over C.</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="strategy-comparison-matrix">Strategy Comparison Matrix<a class="headerlink" href="#strategy-comparison-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>A: Bundle</th>
+<th>B: Pure BYOO</th>
+<th>C: Smart BYOO</th>
+<th>D: Embedded</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>First-use simplicity</td>
+<td>★★★★★</td>
+<td>★★</td>
+<td>★★★★</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>Installer size impact</td>
+<td>★</td>
+<td>★★★★★</td>
+<td>★★★★★</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>Engineering effort</td>
+<td>★</td>
+<td>★★★★★</td>
+<td>★★★</td>
+<td>★★</td>
+</tr>
+<tr>
+<td>Maintenance burden</td>
+<td>★</td>
+<td>★★★★★</td>
+<td>★★★★</td>
+<td>★★</td>
+</tr>
+<tr>
+<td>User trust</td>
+<td>★★</td>
+<td>★★★★★</td>
+<td>★★★★</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>Non-technical user UX</td>
+<td>★★★★★</td>
+<td>★★</td>
+<td>★★★★</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>Power user flexibility</td>
+<td>★★</td>
+<td>★★★★★</td>
+<td>★★★★★</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td><strong>Overall</strong></td>
+<td><strong>Not viable</strong></td>
+<td><strong>Too bare</strong></td>
+<td><strong>Best fit</strong></td>
+<td><strong>Over-engineered</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-industry-patterns-lessons">5. Industry Patterns &amp; Lessons<a class="headerlink" href="#5-industry-patterns-lessons" title="Permanent link">&para;</a></h2>
+<h3 id="how-other-projects-handle-ollama">How Other Projects Handle Ollama<a class="headerlink" href="#how-other-projects-handle-ollama" title="Permanent link">&para;</a></h3>
+<h4 id="open-webui-formerly-ollama-webui">Open WebUI (formerly Ollama WebUI)<a class="headerlink" href="#open-webui-formerly-ollama-webui" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Pattern</strong>: Pure BYOO with reverse proxy architecture</li>
+<li><strong>Server management</strong>: Connects to existing Ollama via <code>OLLAMA_BASE_URLS</code> env var</li>
+<li><strong>Model management</strong>: Full UI for pulling, deleting, and managing models</li>
+<li><strong>Key lesson</strong>: Timeout handling is their biggest UX problem — long inference times on CPU cause silent failures</li>
+<li><strong>Takeaway for WhisperJAV</strong>: Streaming is essential. Non-streaming requests timeout on slow hardware.</li>
+</ul>
+<h4 id="anythingllm">AnythingLLM<a class="headerlink" href="#anythingllm" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Pattern</strong>: Pure BYOO</li>
+<li><strong>Setup</strong>: Users must install and configure Ollama separately</li>
+<li><strong>Marketing</strong>: "Zero configuration" (for the app, not the LLM backend)</li>
+<li><strong>Key lesson</strong>: Works well for technical users, frustrating for non-technical users</li>
+<li><strong>Takeaway for WhisperJAV</strong>: "Zero configuration" is aspirational, not achievable for local LLM</li>
+</ul>
+<h4 id="gpt4all">GPT4All<a class="headerlink" href="#gpt4all" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Pattern</strong>: Bundle Everything (bundles llama.cpp directly, not Ollama)</li>
+<li><strong>Model management</strong>: In-app model browser with download progress</li>
+<li><strong>Key lesson</strong>: Bundling works but creates massive installers and update coupling</li>
+<li><strong>Takeaway for WhisperJAV</strong>: Auto-pull models is a great UX, but bundle the runtime is not</li>
+</ul>
+<h4 id="janai">Jan.ai<a class="headerlink" href="#janai" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Pattern</strong>: All-in-one platform (bundles its own inference engine)</li>
+<li><strong>Hardware</strong>: Auto-detects hardware and optimizes accordingly</li>
+<li><strong>Key lesson</strong>: Hardware-aware defaults are critical — users shouldn't choose quantization levels</li>
+<li><strong>Takeaway for WhisperJAV</strong>: Auto-select model based on detected VRAM</li>
+</ul>
+<h4 id="lm-studio">LM Studio<a class="headerlink" href="#lm-studio" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Pattern</strong>: All-in-one platform</li>
+<li><strong>API</strong>: Headless daemon with TTL auto-eviction for loaded models</li>
+<li><strong>Tiers</strong>: Entry (4-6 GB), Mid-range (8-12 GB), High-end (16-24 GB+)</li>
+<li><strong>Key lesson</strong>: Hardware tier documentation helps users self-select</li>
+<li><strong>Takeaway for WhisperJAV</strong>: Communicate hardware requirements in human-readable tiers</li>
+</ul>
+<h3 id="common-pitfalls">Common Pitfalls<a class="headerlink" href="#common-pitfalls" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>Projects Affected</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Port 11434 conflicts</strong></td>
+<td>Open WebUI, any multi-Ollama setup</td>
+<td>Support custom port via <code>OLLAMA_HOST</code></td>
+</tr>
+<tr>
+<td><strong>GPU memory exhaustion</strong></td>
+<td>All projects</td>
+<td>Use <code>OLLAMA_GPU_OVERHEAD</code> to reserve VRAM for Whisper</td>
+</tr>
+<tr>
+<td><strong>Timeout on slow inference</strong></td>
+<td>Open WebUI (#1 complaint)</td>
+<td>Always use streaming; set generous timeouts</td>
+</tr>
+<tr>
+<td><strong>Model not pulled</strong></td>
+<td>AnythingLLM users</td>
+<td>Auto-detect and offer to pull</td>
+</tr>
+<tr>
+<td><strong>Docker networking confusion</strong></td>
+<td>Open WebUI in Docker</td>
+<td>N/A for WhisperJAV (not Docker-based)</td>
+</tr>
+<tr>
+<td><strong>Ollama version incompatibility</strong></td>
+<td>Rare but documented</td>
+<td>Check <code>/api/version</code>, warn if too old</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-ux-design-principles">6. UX Design Principles<a class="headerlink" href="#6-ux-design-principles" title="Permanent link">&para;</a></h2>
+<p>Based on research across LM Studio, Jan.ai, GPT4All, AnythingLLM, Open WebUI, and UX best practices literature.</p>
+<h3 id="principle-1-detect-dont-assume">Principle 1: Detect, Don't Assume<a class="headerlink" href="#principle-1-detect-dont-assume" title="Permanent link">&para;</a></h3>
+<p>Check for Ollama, GPU, VRAM, and model presence. Guide the user through whatever is missing.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Is Ollama installed? → Guide install if not
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Is Ollama running? → Offer to start if not
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>Is model available? → Auto-pull with consent
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>Is VRAM sufficient? → Suggest appropriate model
+</code></pre></div>
+<h3 id="principle-2-progressive-disclosure">Principle 2: Progressive Disclosure<a class="headerlink" href="#principle-2-progressive-disclosure" title="Permanent link">&para;</a></h3>
+<p>Three levels of information:</p>
+<ul>
+<li><strong>Level 1 (always visible)</strong>: Plain language. "Translation engine not found."</li>
+<li><strong>Level 2 (one click)</strong>: Actionable steps. "Install Ollama from ollama.com, then click Check Again."</li>
+<li><strong>Level 3 (behind "Details")</strong>: Technical info. "Connection refused: http://localhost:11434"</li>
+</ul>
+<h3 id="principle-3-one-time-pain-permanent-gain">Principle 3: One-Time Pain, Permanent Gain<a class="headerlink" href="#principle-3-one-time-pain-permanent-gain" title="Permanent link">&para;</a></h3>
+<p>Frame Ollama install and model download as one-time steps:</p>
+<blockquote>
+<p>"Setting up local translation (one-time setup, ~5 minutes):
+1. Install Ollama (free, 1 click)
+2. Download translation model (4.7 GB)
+After setup, translation starts instantly every time."</p>
+</blockquote>
+<h3 id="principle-4-hardware-aware-defaults">Principle 4: Hardware-Aware Defaults<a class="headerlink" href="#principle-4-hardware-aware-defaults" title="Permanent link">&para;</a></h3>
+<p>Users should never see "Q4_K_M" or "num_ctx=8192". Auto-select based on detected hardware:</p>
+<table>
+<thead>
+<tr>
+<th>Detected VRAM</th>
+<th>Default Model</th>
+<th>Quality Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>≥12 GB</td>
+<td>gemma3:12b</td>
+<td>Best</td>
+</tr>
+<tr>
+<td>≥8 GB</td>
+<td>qwen2.5:7b</td>
+<td>Good</td>
+</tr>
+<tr>
+<td>≥4 GB</td>
+<td>llama3.2:3b</td>
+<td>Basic</td>
+</tr>
+<tr>
+<td>CPU only</td>
+<td>llama3.2:3b (Q4)</td>
+<td>Basic (slow)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="principle-5-graceful-degradation-not-hard-failures">Principle 5: Graceful Degradation, Not Hard Failures<a class="headerlink" href="#principle-5-graceful-degradation-not-hard-failures" title="Permanent link">&para;</a></h3>
+<p>Never show a raw traceback. Degrade with notification:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>GPU + large model → GPU + small model → CPU + small model → Cloud fallback → Skip translation
+</code></pre></div>
+<p>Each step down should be automatic with a notification, not a blocking error.</p>
+<h3 id="principle-6-the-check-again-pattern">Principle 6: The "Check Again" Pattern<a class="headerlink" href="#principle-6-the-check-again-pattern" title="Permanent link">&para;</a></h3>
+<p>When external install is needed (Ollama), provide a re-check button:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>┌─────────────────────────────────────────────────┐
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>│  Translation Engine Setup                        │
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>│                                                  │
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>│  Ollama is not installed on this system.         │
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>│                                                  │
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>│  Ollama is a free, open-source tool that runs    │
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>│  AI models locally on your computer.             │
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>│                                                  │
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>│  [Download Ollama]    [Check Again]              │
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>│                                                  │
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>│  ▸ What is Ollama?                               │
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>│  ▸ Troubleshooting                               │
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>└─────────────────────────────────────────────────┘
+</code></pre></div>
+<p>No app restart required — just click "Check Again" after installing.</p>
+<h3 id="principle-7-separate-setup-from-use">Principle 7: Separate "Setup" from "Use"<a class="headerlink" href="#principle-7-separate-setup-from-use" title="Permanent link">&para;</a></h3>
+<p>The setup wizard runs once. After that, the translate button works with zero friction. No Ollama awareness in the normal workflow — it should feel like translation is built in.</p>
+<hr />
+<h2 id="7-recommended-architecture">7. Recommended Architecture<a class="headerlink" href="#7-recommended-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="high-level-design">High-Level Design<a class="headerlink" href="#high-level-design" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>┌────────────────────────────────────────────────────────────────────────┐
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>│                        WhisperJAV v1.9.0                               │
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>│                                                                        │
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>│  ┌──────────────────────────────────────────────────────────────────┐  │
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>│  │                    Translation Pipeline                          │  │
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>│  │  (PySubtrans → OpenAI-compatible API → Ollama)                  │  │
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>│  └──────────────────────┬───────────────────────────────────────────┘  │
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>│                         │                                              │
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>│  ┌──────────────────────▼───────────────────────────────────────────┐  │
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>│  │                 OllamaManager                                    │  │
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>│  │                                                                  │  │
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>│  │  detect_server()     → Is Ollama running?                       │  │
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>│  │  detect_installation() → Is Ollama installed?                   │  │
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>│  │  check_model(name)   → Is model available locally?              │  │
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>│  │  pull_model(name)    → Download model with progress             │  │
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>│  │  get_model_info(name) → Context length, capabilities           │  │
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>│  │  get_hardware_info()  → VRAM, loaded models                    │  │
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>│  │  recommend_model()   → Hardware-aware model suggestion          │  │
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>│  │  start_server()      → Start Ollama if installed but not running│  │
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>│  └──────────────────────────────────────────────────────────────────┘  │
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>│                                                                        │
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>│  ┌──────────────────────────────────────────────────────────────────┐  │
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>│  │              SetupWizard (first-use only)                        │  │
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>│  │                                                                  │  │
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>│  │  Step 1: Check Ollama → Guide install if missing                │  │
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>│  │  Step 2: Check model  → Auto-pull with consent                  │  │
+<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>│  │  Step 3: Ready        → Save config, don&#39;t show again           │  │
+<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>│  └──────────────────────────────────────────────────────────────────┘  │
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>└────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<h3 id="ollamamanager-core-integration-class">OllamaManager — Core Integration Class<a class="headerlink" href="#ollamamanager-core-integration-class" title="Permanent link">&para;</a></h3>
+<p>This is the single point of contact between WhisperJAV and Ollama. Responsibilities:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Purpose</th>
+<th>API Used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detect_server()</code></td>
+<td>Check if Ollama HTTP server is reachable</td>
+<td><code>GET /</code></td>
+</tr>
+<tr>
+<td><code>detect_installation()</code></td>
+<td>Check if <code>ollama</code> binary is on PATH</td>
+<td><code>shutil.which()</code></td>
+</tr>
+<tr>
+<td><code>check_model(name)</code></td>
+<td>Check if model is downloaded locally</td>
+<td><code>POST /api/show</code></td>
+</tr>
+<tr>
+<td><code>pull_model(name, callback)</code></td>
+<td>Download model with progress callback</td>
+<td><code>POST /api/pull</code> (streaming)</td>
+</tr>
+<tr>
+<td><code>get_model_info(name)</code></td>
+<td>Get context length, parameter count</td>
+<td><code>POST /api/show</code></td>
+</tr>
+<tr>
+<td><code>get_hardware_info()</code></td>
+<td>Get loaded models, VRAM usage</td>
+<td><code>GET /api/ps</code></td>
+</tr>
+<tr>
+<td><code>recommend_model(vram_gb)</code></td>
+<td>Suggest model based on available VRAM</td>
+<td>Local logic</td>
+</tr>
+<tr>
+<td><code>start_server()</code></td>
+<td>Start <code>ollama serve</code> as subprocess</td>
+<td><code>subprocess.Popen</code></td>
+</tr>
+<tr>
+<td><code>ensure_ready(model)</code></td>
+<td>Full readiness check (server + model)</td>
+<td>Combines above</td>
+</tr>
+</tbody>
+</table>
+<h3 id="translation-flow-v190">Translation Flow (v1.9.0)<a class="headerlink" href="#translation-flow-v190" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>User invokes: whisperjav-translate -i subs.srt --provider ollama
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>                    │
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>                    ▼
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>         ┌─────────────────────┐
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>         │  OllamaManager      │
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>         │  .ensure_ready()     │
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>         └─────────┬───────────┘
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>                   │
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>         ┌─────────▼───────────┐     ┌──────────────────────────┐
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>         │ Server running?      │─NO─▶│ Installed?               │
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>         └─────────┬───────────┘     └──────────┬───────────────┘
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>                   │ YES                         │
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>                   │                    ┌────────▼────────┐
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>                   │                    │ YES: Start it   │
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>                   │                    │ NO: Guide install│
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>                   │                    └────────┬────────┘
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>                   │                             │
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>         ┌─────────▼───────────┐                 │
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>         │ Model available?     │◄────────────────┘
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>         └─────────┬───────────┘
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>                   │
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>              ┌────▼────┐
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>              │ YES     │ NO: Auto-pull with progress
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>              └────┬────┘      (user consent required)
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>                   │
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>         ┌─────────▼───────────┐
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>         │ Get model context    │
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>         │ length from /api/show│
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>         └─────────┬───────────┘
+<a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>                   │
+<a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>         ┌─────────▼───────────┐
+<a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>         │ Compute batch size   │
+<a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>         │ and max_tokens       │
+<a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>         │ based on ACTUAL      │
+<a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a>         │ context length       │
+<a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a>         └─────────┬───────────┘
+<a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a>                   │
+<a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>         ┌─────────▼───────────┐
+<a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a>         │ PySubtrans translate │
+<a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a>         │ via /v1/chat/        │
+<a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a>         │ completions          │
+<a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a>         └─────────┬───────────┘
+<a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a>                   │
+<a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a>                   ▼
+<a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a>              OUTPUT.en.srt
+</code></pre></div>
+<h3 id="key-design-decisions">Key Design Decisions<a class="headerlink" href="#key-design-decisions" title="Permanent link">&para;</a></h3>
+<p><strong>1. No Ollama bundling.</strong> Ollama is a system-level tool. Users install it once, use it across many apps.</p>
+<p><strong>2. Auto-start Ollama if installed but not running.</strong> Via <code>subprocess.Popen(["ollama", "serve"])</code>. Check port first to avoid conflict with existing instance.</p>
+<p><strong>3. Auto-pull models with user consent.</strong> Show model name and size, ask "Download now?". Use streaming pull API for progress.</p>
+<p><strong>4. Query actual context length from model metadata.</strong> Don't hardcode 8192 — use <code>POST /api/show</code> to get the model's actual context window, then compute batch size dynamically.</p>
+<p><strong>5. Reserve VRAM for Whisper.</strong> If user is transcribing + translating in one pipeline, Whisper and Ollama compete for VRAM. Set <code>OLLAMA_GPU_OVERHEAD</code> or unload Whisper model first.</p>
+<p><strong>6. Support custom Ollama URL.</strong> Via <code>--ollama-url</code> flag or <code>OLLAMA_HOST</code> env var. Enables remote Ollama servers.</p>
+<p><strong>7. Keep <code>--provider ollama</code> as the user-facing flag.</strong> Internally maps to <code>OllamaManager</code> + <code>Custom Server</code> PySubtrans provider.</p>
+<h3 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h3>
+<p><strong>No new pip dependencies required.</strong> Ollama communication uses:
+- <code>urllib.request</code> (stdlib) — for health checks and model queries
+- OpenAI-compatible API via PySubtrans (already installed) — for translation
+- <code>subprocess</code> (stdlib) — for starting Ollama if needed</p>
+<p>The official <code>ollama</code> Python package is NOT needed. Using raw HTTP + OpenAI-compat endpoint keeps the dependency footprint at zero.</p>
+<hr />
+<h2 id="8-model-selection-strategy">8. Model Selection Strategy<a class="headerlink" href="#8-model-selection-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="the-problem">The Problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h3>
+<p>Users should not have to:
+- Know what "7B Q4_K_M" means
+- Guess whether a model fits their GPU
+- Research which models are good for Japanese translation
+- Manually type model names</p>
+<h3 id="two-tier-selection">Two-Tier Selection<a class="headerlink" href="#two-tier-selection" title="Permanent link">&para;</a></h3>
+<h4 id="tier-1-just-works-default">Tier 1: "Just Works" (Default)<a class="headerlink" href="#tier-1-just-works-default" title="Permanent link">&para;</a></h4>
+<p>WhisperJAV auto-selects a model based on detected hardware. User sees:</p>
+<blockquote>
+<p>"Using recommended model for your hardware (gemma3:12b, 7.3 GB download)"</p>
+</blockquote>
+<p>No model names in the normal UI. No parameters. No jargon.</p>
+<p><strong>Selection Logic:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">recommend_model</span><span class="p">(</span><span class="n">vram_gb</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModelRecommendation</span><span class="p">:</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Select model based on available VRAM.&quot;&quot;&quot;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="k">if</span> <span class="n">vram_gb</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">vram_gb</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>        <span class="c1"># CPU-only or very low VRAM</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>        <span class="k">return</span> <span class="n">ModelRecommendation</span><span class="p">(</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;qwen2.5:3b&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>            <span class="n">download_size</span><span class="o">=</span><span class="s2">&quot;2.0 GB&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>            <span class="n">quality</span><span class="o">=</span><span class="s2">&quot;basic&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>            <span class="n">note</span><span class="o">=</span><span class="s2">&quot;Your system will use CPU mode (slower but functional)&quot;</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>        <span class="p">)</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    <span class="k">elif</span> <span class="n">vram_gb</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">:</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>        <span class="k">return</span> <span class="n">ModelRecommendation</span><span class="p">(</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;qwen2.5:7b&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>            <span class="n">download_size</span><span class="o">=</span><span class="s2">&quot;4.7 GB&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>            <span class="n">quality</span><span class="o">=</span><span class="s2">&quot;good&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>            <span class="n">note</span><span class="o">=</span><span class="s2">&quot;Good quality, fits your GPU&quot;</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>        <span class="p">)</span>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>    <span class="k">elif</span> <span class="n">vram_gb</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">:</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>        <span class="k">return</span> <span class="n">ModelRecommendation</span><span class="p">(</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;gemma3:12b&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>            <span class="n">download_size</span><span class="o">=</span><span class="s2">&quot;7.3 GB&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>            <span class="n">quality</span><span class="o">=</span><span class="s2">&quot;very good&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>            <span class="n">note</span><span class="o">=</span><span class="s2">&quot;Best quality for your GPU&quot;</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>        <span class="p">)</span>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>        <span class="k">return</span> <span class="n">ModelRecommendation</span><span class="p">(</span>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;qwen2.5:14b&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>            <span class="n">download_size</span><span class="o">=</span><span class="s2">&quot;9.0 GB&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>            <span class="n">quality</span><span class="o">=</span><span class="s2">&quot;excellent&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>            <span class="n">note</span><span class="o">=</span><span class="s2">&quot;Highest quality translation&quot;</span>
+<a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a>        <span class="p">)</span>
+</code></pre></div>
+<h4 id="tier-2-advanced-settings-page">Tier 2: "Advanced" (Settings Page)<a class="headerlink" href="#tier-2-advanced-settings-page" title="Permanent link">&para;</a></h4>
+<p>Full model picker for power users:</p>
+<ul>
+<li>Dropdown with pre-tested models + quality ratings</li>
+<li>VRAM requirement per model</li>
+<li>Custom model name field (for <code>ollama pull &lt;any-model&gt;</code>)</li>
+<li>Temperature, context window, batch size overrides</li>
+</ul>
+<h3 id="model-quality-tiers-human-readable">Model Quality Tiers (Human-Readable)<a class="headerlink" href="#model-quality-tiers-human-readable" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Label</th>
+<th>Models</th>
+<th>VRAM</th>
+<th>User Sees</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entry</td>
+<td>"Basic"</td>
+<td>3B models</td>
+<td>4 GB</td>
+<td>"Basic translation quality"</td>
+</tr>
+<tr>
+<td>Standard</td>
+<td>"Good"</td>
+<td>7-8B models</td>
+<td>8 GB</td>
+<td>"Good translation quality"</td>
+</tr>
+<tr>
+<td>Quality</td>
+<td>"Very Good"</td>
+<td>12B models</td>
+<td>12 GB</td>
+<td>"High quality translation"</td>
+</tr>
+<tr>
+<td>Premium</td>
+<td>"Excellent"</td>
+<td>14B+ models</td>
+<td>16 GB+</td>
+<td>"Best available quality"</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pre-configured-translation-parameters">Pre-Configured Translation Parameters<a class="headerlink" href="#pre-configured-translation-parameters" title="Permanent link">&para;</a></h3>
+<p>Each recommended model ships with tuned parameters:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">MODEL_CONFIGS</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="s2">&quot;qwen2.5:3b&quot;</span><span class="p">:</span> <span class="p">{</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>        <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>  <span class="c1"># Lower = more consistent for small models</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>        <span class="s2">&quot;num_ctx&quot;</span><span class="p">:</span> <span class="mi">4096</span><span class="p">,</span>     <span class="c1"># Smaller context for smaller model</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>        <span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>     <span class="c1"># Fewer lines per batch</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="p">},</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="s2">&quot;qwen2.5:7b&quot;</span><span class="p">:</span> <span class="p">{</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>        <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>        <span class="s2">&quot;num_ctx&quot;</span><span class="p">:</span> <span class="mi">8192</span><span class="p">,</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>        <span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    <span class="p">},</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>    <span class="s2">&quot;gemma3:12b&quot;</span><span class="p">:</span> <span class="p">{</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>        <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>        <span class="s2">&quot;num_ctx&quot;</span><span class="p">:</span> <span class="mi">8192</span><span class="p">,</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>        <span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>    <span class="p">},</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>    <span class="s2">&quot;qwen2.5:14b&quot;</span><span class="p">:</span> <span class="p">{</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>        <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>        <span class="s2">&quot;num_ctx&quot;</span><span class="p">:</span> <span class="mi">16384</span><span class="p">,</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>        <span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>    <span class="p">},</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="p">}</span>
+</code></pre></div>
+<p>Users should never see these parameters unless they visit Advanced Settings.</p>
+<hr />
+<h2 id="9-error-handling-diagnostics-design">9. Error Handling &amp; Diagnostics Design<a class="headerlink" href="#9-error-handling-diagnostics-design" title="Permanent link">&para;</a></h2>
+<h3 id="error-scenarios-messaging">Error Scenarios &amp; Messaging<a class="headerlink" href="#error-scenarios-messaging" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Level 1 (Always Shown)</th>
+<th>Level 2 (Expandable)</th>
+<th>Level 3 (Details)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ollama not installed</strong></td>
+<td>"Translation engine not found."</td>
+<td>"Install Ollama (free, 1 click) from ollama.com/download. Then click Check Again."</td>
+<td>"shutil.which('ollama') returned None. Expected in PATH."</td>
+</tr>
+<tr>
+<td><strong>Ollama not running</strong></td>
+<td>"Translation engine is installed but not running."</td>
+<td>"Start Ollama from your system tray (Windows) or Applications (macOS). Or run: ollama serve"</td>
+<td>"GET http://localhost:11434/ returned ConnectionRefused"</td>
+</tr>
+<tr>
+<td><strong>Model not downloaded</strong></td>
+<td>"Translation model needs to be downloaded first (4.7 GB, one-time)."</td>
+<td>"[Download Now] [Choose Different Model]"</td>
+<td>"POST /api/show {model: 'qwen2.5:7b'} returned 404"</td>
+</tr>
+<tr>
+<td><strong>Out of VRAM</strong></td>
+<td>"This model is too large for your GPU."</td>
+<td>"[Switch to Lite Model] [Use CPU Mode]"</td>
+<td>"CUDA out of memory. Model needs 8 GB, available: 4 GB."</td>
+</tr>
+<tr>
+<td><strong>No GPU detected</strong></td>
+<td>"No compatible GPU found. Translation will use CPU mode (slower)."</td>
+<td>"[Why?] [GPU Setup Guide]"</td>
+<td>"No CUDA/ROCm/Metal devices found"</td>
+</tr>
+<tr>
+<td><strong>Translation failed</strong></td>
+<td>"Translation failed for batch 3 of 15."</td>
+<td>"The model produced unexpected output. Try a different model or reduce batch size."</td>
+<td>"PySubtrans: No matches found in response. Raw output: ..."</td>
+</tr>
+<tr>
+<td><strong>Server timeout</strong></td>
+<td>"Translation engine stopped responding."</td>
+<td>"This usually means the model ran out of memory. Try: smaller batch size, smaller model, or restart Ollama."</td>
+<td>"POST /v1/chat/completions timed out after 120s"</td>
+</tr>
+</tbody>
+</table>
+<h3 id="graceful-degradation-chain">Graceful Degradation Chain<a class="headerlink" href="#graceful-degradation-chain" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>1. GPU + recommended model (best quality, fastest)
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>   ↓ if VRAM insufficient
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>2. GPU + smaller model (good quality, fast)
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>   ↓ if no GPU or all models too large
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>3. CPU + small model (good quality, slow)
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>   ↓ if translation fails
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>4. Suggest cloud provider (DeepSeek at $0.001/file)
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>   ↓ if user declines
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>5. Skip translation (output untranslated SRT)
+</code></pre></div>
+<p>Each step down should include a notification explaining why, not a blocking error.</p>
+<h3 id="vram-sharing-whisper-ollama">VRAM Sharing: Whisper + Ollama<a class="headerlink" href="#vram-sharing-whisper-ollama" title="Permanent link">&para;</a></h3>
+<p>When transcribing and translating in one pipeline, Whisper and Ollama compete for VRAM.</p>
+<p><strong>Strategy</strong>: Sequential, not concurrent.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>1. Whisper loads → transcribes → produces SRT
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>2. Whisper model unloaded (or moved to CPU)
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>3. Ollama loads translation model → translates
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>4. Ollama model stays loaded for 5 minutes (keep_alive)
+</code></pre></div>
+<p><strong>Implementation</strong>:
+- Set <code>OLLAMA_GPU_OVERHEAD</code> to reserve VRAM for Whisper during transcription
+- Or: unload Whisper model before starting translation
+- Or: use <code>keep_alive: 0</code> to immediately unload Ollama model after translation</p>
+<hr />
+<h2 id="10-current-whisperjav-state">10. Current WhisperJAV State<a class="headerlink" href="#10-current-whisperjav-state" title="Permanent link">&para;</a></h2>
+<h3 id="what-already-exists-v188">What Already Exists (v1.8.8)<a class="headerlink" href="#what-already-exists-v188" title="Permanent link">&para;</a></h3>
+<p>The v1.8.8 preview provides a <strong>working but manual</strong> Ollama integration:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Status</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Provider definition</td>
+<td>Done</td>
+<td><code>providers.py:47-56</code></td>
+</tr>
+<tr>
+<td>Server detection</td>
+<td>Done</td>
+<td><code>cli.py:532-548</code></td>
+</tr>
+<tr>
+<td>Context window setup</td>
+<td>Done (hardcoded 8192)</td>
+<td><code>cli.py:550-569</code></td>
+</tr>
+<tr>
+<td>Batch size capping</td>
+<td>Done</td>
+<td><code>core.py:10-57</code></td>
+</tr>
+<tr>
+<td>Max token computation</td>
+<td>Done</td>
+<td><code>core.py:60-103</code></td>
+</tr>
+<tr>
+<td>Diagnostic tracking</td>
+<td>Done</td>
+<td><code>core.py:409-500</code></td>
+</tr>
+<tr>
+<td>Main pipeline integration</td>
+<td>Done</td>
+<td><code>main.py:1256-1276</code></td>
+</tr>
+<tr>
+<td>Error messages</td>
+<td>Done (basic)</td>
+<td><code>cli.py:540-548</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="whats-missing-for-v190">What's Missing for v1.9.0<a class="headerlink" href="#whats-missing-for-v190" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Status</th>
+<th>Effort</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OllamaManager class</td>
+<td>Not started</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Model availability check</td>
+<td>Not started</td>
+<td>Small</td>
+</tr>
+<tr>
+<td>Model auto-pull with progress</td>
+<td>Not started</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Dynamic context length from model metadata</td>
+<td>Not started</td>
+<td>Small</td>
+</tr>
+<tr>
+<td>Hardware-aware model recommendation</td>
+<td>Not started</td>
+<td>Small</td>
+</tr>
+<tr>
+<td>Auto-start Ollama if installed but not running</td>
+<td>Not started</td>
+<td>Small</td>
+</tr>
+<tr>
+<td>Setup wizard (CLI)</td>
+<td>Not started</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Setup wizard (GUI)</td>
+<td>Not started</td>
+<td>Medium-Large</td>
+</tr>
+<tr>
+<td>VRAM sharing with Whisper</td>
+<td>Not started</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Backend abstraction layer (<code>LLMBackend</code> protocol)</td>
+<td>Not started</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Deprecate <code>local_backend.py</code></td>
+<td>Not started</td>
+<td>Small</td>
+</tr>
+</tbody>
+</table>
+<h3 id="code-to-remove-v190">Code to Remove (v1.9.0)<a class="headerlink" href="#code-to-remove-v190" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Lines</th>
+<th>Purpose</th>
+<th>Replacement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>local_backend.py</code></td>
+<td>2,423</td>
+<td>llama-cpp-python server management</td>
+<td>OllamaManager</td>
+</tr>
+<tr>
+<td><code>llama_cuda_config.py</code></td>
+<td>186</td>
+<td>CUDA wheel selection</td>
+<td>Ollama handles GPU</td>
+</tr>
+<tr>
+<td><code>llama_build_utils.py</code></td>
+<td>500</td>
+<td>Build-from-source fallback</td>
+<td>Not needed</td>
+</tr>
+<tr>
+<td>DLL path hacks in various files</td>
+<td>~400</td>
+<td>DLL loading workarounds</td>
+<td>Not needed</td>
+</tr>
+<tr>
+<td><strong>Total removed</strong></td>
+<td><strong>~3,500</strong></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="code-to-add-v190">Code to Add (v1.9.0)<a class="headerlink" href="#code-to-add-v190" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Est. Lines</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ollama_manager.py</code></td>
+<td>~300</td>
+<td>Detection, model management, server lifecycle</td>
+</tr>
+<tr>
+<td><code>llm_backend.py</code></td>
+<td>~100</td>
+<td>Protocol + factory</td>
+</tr>
+<tr>
+<td>Setup wizard (CLI)</td>
+<td>~150</td>
+<td>First-use guided setup</td>
+</tr>
+<tr>
+<td>Model configs</td>
+<td>~50</td>
+<td>Pre-tuned parameters per model</td>
+</tr>
+<tr>
+<td><strong>Total added</strong></td>
+<td><strong>~600</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Net change</strong>: Remove ~3,500 lines, add ~600 lines = <strong>net reduction of ~2,900 lines</strong>.</p>
+<hr />
+<h2 id="11-risk-analysis">11. Risk Analysis<a class="headerlink" href="#11-risk-analysis" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Likelihood</th>
+<th>Impact</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Users can't install Ollama</strong></td>
+<td>Medium</td>
+<td>High</td>
+<td>Clear platform-specific instructions, video link</td>
+</tr>
+<tr>
+<td><strong>Ollama API breaking change</strong></td>
+<td>Low</td>
+<td>Medium</td>
+<td>Pin minimum version, check <code>/api/version</code></td>
+</tr>
+<tr>
+<td><strong>Model produces garbled translation</strong></td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Pre-tested model list, quality benchmarks</td>
+</tr>
+<tr>
+<td><strong>VRAM conflict with Whisper</strong></td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Sequential loading, <code>OLLAMA_GPU_OVERHEAD</code></td>
+</tr>
+<tr>
+<td><strong>Port 11434 conflict</strong></td>
+<td>Low</td>
+<td>Low</td>
+<td>Support custom port via env var</td>
+</tr>
+<tr>
+<td><strong>Ollama not available on user's OS</strong></td>
+<td>Very Low</td>
+<td>High</td>
+<td>Ollama supports Windows, macOS, Linux</td>
+</tr>
+<tr>
+<td><strong>Model download fails/stalls</strong></td>
+<td>Low</td>
+<td>Medium</td>
+<td>Resumable downloads (Ollama native)</td>
+</tr>
+<tr>
+<td><strong>User has old Ollama version</strong></td>
+<td>Medium</td>
+<td>Low</td>
+<td>Version check + upgrade guidance</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mitigation-for-top-risk-users-cant-install-ollama">Mitigation for Top Risk: "Users Can't Install Ollama"<a class="headerlink" href="#mitigation-for-top-risk-users-cant-install-ollama" title="Permanent link">&para;</a></h3>
+<p>This is the single biggest risk. Mitigation:</p>
+<ol>
+<li><strong>Platform-specific install instructions</strong> (not just "go to ollama.com"):</li>
+<li>Windows: "Download OllamaSetup.exe, double-click, done"</li>
+<li>macOS: "Download, drag to Applications, open"</li>
+<li>
+<p>Linux: "Run this one command: <code>curl -fsSL https://ollama.com/install.sh | sh</code>"</p>
+</li>
+<li>
+<p><strong>"Check Again" button</strong> — user installs externally, clicks button, WhisperJAV re-detects</p>
+</li>
+<li>
+<p><strong>Fallback path</strong> — if user truly can't install Ollama, suggest <code>--provider deepseek</code> (cloud, $0.001/file)</p>
+</li>
+</ol>
+<hr />
+<h2 id="12-open-questions">12. Open Questions<a class="headerlink" href="#12-open-questions" title="Permanent link">&para;</a></h2>
+<h3 id="q1-should-whisperjav-auto-start-ollama">Q1: Should WhisperJAV auto-start Ollama?<a class="headerlink" href="#q1-should-whisperjav-auto-start-ollama" title="Permanent link">&para;</a></h3>
+<p><strong>Options</strong>:
+- A) Always auto-start if installed but not running
+- B) Ask user: "Ollama is installed but not running. Start it?"
+- C) Never auto-start, show guidance only</p>
+<p><strong>Recommendation</strong>: Option B. Transparent, respects user autonomy, avoids surprise background processes.</p>
+<h3 id="q2-how-to-handle-uncensored-models">Q2: How to handle uncensored models?<a class="headerlink" href="#q2-how-to-handle-uncensored-models" title="Permanent link">&para;</a></h3>
+<p>Current <code>--provider local</code> downloads uncensored GGUF from HuggingFace. With Ollama:
+- <strong>Option A</strong>: Publish uncensored model to Ollama registry (community model)
+- <strong>Option B</strong>: Create Modelfile from local GGUF: <code>ollama create whisperjav-uncensored -f Modelfile</code>
+- <strong>Option C</strong>: Use <code>ollama pull hf.co/user/model:Q4_K_M</code> (HuggingFace direct pull, supported since Ollama 0.4+)</p>
+<p><strong>Recommendation</strong>: Start with standard models (gemma3, qwen2.5). Most users don't need uncensored for subtitle translation. Add uncensored model support in v1.9.x if demand exists.</p>
+<h3 id="q3-should-the-setup-wizard-be-cli-only-or-also-gui">Q3: Should the setup wizard be CLI-only or also GUI?<a class="headerlink" href="#q3-should-the-setup-wizard-be-cli-only-or-also-gui" title="Permanent link">&para;</a></h3>
+<p><strong>Recommendation</strong>: Both, but CLI first. CLI wizard for v1.9.0, GUI wizard for v1.9.x. The GUI can call the same <code>OllamaManager</code> methods.</p>
+<h3 id="q4-whats-the-minimum-ollama-version-to-support">Q4: What's the minimum Ollama version to support?<a class="headerlink" href="#q4-whats-the-minimum-ollama-version-to-support" title="Permanent link">&para;</a></h3>
+<p>Ollama's OpenAI-compatible API (<code>/v1/chat/completions</code>) has been stable since v0.1.0+. The <code>POST /api/show</code> endpoint for model info is available since v0.1.0+.</p>
+<p><strong>Recommendation</strong>: Require Ollama 0.3.0+ (widely available, stable API). Check via <code>GET /api/version</code>.</p>
+<h3 id="q5-should-whisperjav-manage-ollama_keep_alive">Q5: Should WhisperJAV manage <code>OLLAMA_KEEP_ALIVE</code>?<a class="headerlink" href="#q5-should-whisperjav-manage-ollama_keep_alive" title="Permanent link">&para;</a></h3>
+<p>During batch translation of a long file, models should stay loaded. But after translation completes, models should unload to free VRAM.</p>
+<p><strong>Options</strong>:
+- A) Set <code>keep_alive: "30m"</code> per-request during translation, <code>keep_alive: 0</code> on last request
+- B) Don't manage it, let Ollama's default (5 min) handle it
+- C) Set <code>OLLAMA_KEEP_ALIVE=0</code> env var globally (aggressive memory freeing)</p>
+<p><strong>Recommendation</strong>: Option A. Explicit control per-request. Keep model loaded during translation, unload when done.</p>
+<h3 id="q6-how-to-handle-vram-sharing-between-whisper-and-ollama">Q6: How to handle VRAM sharing between Whisper and Ollama?<a class="headerlink" href="#q6-how-to-handle-vram-sharing-between-whisper-and-ollama" title="Permanent link">&para;</a></h3>
+<p><strong>Recommendation</strong>: Sequential loading. Whisper runs first (transcription), then Ollama runs (translation). If running in the same pipeline (<code>--translate</code> flag), unload Whisper model or move to CPU before starting Ollama translation. This is the simplest approach and avoids VRAM contention.</p>
+<hr />
+<h2 id="13-references">13. References<a class="headerlink" href="#13-references" title="Permanent link">&para;</a></h2>
+<h3 id="ollama-documentation">Ollama Documentation<a class="headerlink" href="#ollama-documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://github.com/ollama/ollama">Ollama GitHub</a></li>
+<li><a href="https://github.com/ollama/ollama/blob/main/docs/api.md">Ollama API Documentation</a></li>
+<li><a href="https://docs.ollama.com/gpu">Ollama GPU Documentation</a></li>
+<li><a href="https://docs.ollama.com/windows">Ollama Windows Documentation</a></li>
+<li><a href="https://docs.ollama.com/faq">Ollama FAQ</a></li>
+<li><a href="https://pkg.go.dev/github.com/ollama/ollama/envconfig">Ollama Environment Variables</a></li>
+</ul>
+<h3 id="ollama-architecture">Ollama Architecture<a class="headerlink" href="#ollama-architecture" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://deepwiki.com/ollama/ollama/2-architecture">Ollama Architecture — DeepWiki</a></li>
+<li><a href="https://deepwiki.com/ollama/ollama/5.4-memory-management-and-gpu-allocation">Ollama Memory Management — DeepWiki</a></li>
+<li><a href="https://deepwiki.com/ollama/ollama/6-gpu-and-hardware-support">Ollama GPU/Hardware Support — DeepWiki</a></li>
+<li><a href="https://ollama.com/blog/new-model-scheduling">Ollama New Model Scheduling Blog</a></li>
+<li><a href="https://dasroot.net/posts/2026/01/ollama-behind-the-scenes-architecture/">Ollama Behind the Scenes</a></li>
+</ul>
+<h3 id="industry-projects">Industry Projects<a class="headerlink" href="#industry-projects" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://github.com/open-webui/open-webui">Open WebUI GitHub</a></li>
+<li><a href="https://anythingllm.com/">AnythingLLM</a></li>
+<li><a href="https://www.jan.ai/">Jan.ai</a></li>
+<li><a href="https://lmstudio.ai/">LM Studio</a></li>
+<li><a href="https://gpt4all.io/">GPT4All</a></li>
+</ul>
+<h3 id="ux-research">UX Research<a class="headerlink" href="#ux-research" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://www.aiuxpatterns.com/">AI UX Patterns</a></li>
+<li><a href="https://www.nngroup.com/articles/progressive-disclosure/">Progressive Disclosure — NN/g</a></li>
+<li><a href="https://uxdesign.cc/20-genai-ux-patterns-examples-and-implementation-tactics-5b1868b7d4a1">20+ GenAI UX Patterns — UX Collective</a></li>
+<li><a href="https://medium.com/ux-stories/desktop-ux-software-installer-best-practices-6d6d7383dc98">Desktop UX: Software Installer Best Practices — Medium</a></li>
+<li><a href="https://medium.com/@satyendra.jaiswal/graceful-degradation-handling-errors-without-disrupting-user-experience-fd4947a24011">Graceful Degradation — Medium</a></li>
+</ul>
+<h3 id="model-research">Model Research<a class="headerlink" href="#model-research" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://crowdin.com/blog/best-llms-for-translation">Best LLMs for Translation — Crowdin</a></li>
+<li><a href="https://nutstudio.imyfone.com/llm-tips/best-llm-for-translation/">Best LLM for Translation 2026 — NutStudio</a></li>
+<li><a href="https://www.xda-developers.com/local-llm-settings-most-people-never-touch/">8 Local LLM Settings Most People Never Touch — XDA</a></li>
+<li><a href="https://bix-tech.com/lm-studio-vs-ollama-how-to-run-llms-locally-and-scale-them-across-a-team/">LM Studio vs Ollama Comparison — BixTech</a></li>
+</ul>
+<h3 id="whisperjav-internal">WhisperJAV Internal<a class="headerlink" href="#whisperjav-internal" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="../ROADMAP_LLM_AND_NUMPY2/">v1.9.0 Roadmap</a></li>
+<li><a href="../plans/V188_STABLE_RELEASE_PLAN.md">v1.8.8 Release Plan</a></li>
+<li><a href="../analysis/LOCAL_LLM_INDEPENDENT_DIAGNOSIS.md">LLM Diagnosis</a></li>
+<li><a href="../../architecture/INSTALLATION_PROPOSAL/">Installation Proposal</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024-2026 MeiZhong — MIT License
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/meizhong986/whisperjav" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy", "content.action.edit", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
